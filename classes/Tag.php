@@ -1,29 +1,38 @@
 <?php 
-
-/* 
-  ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-  │ ⁡⁣⁢⁣​‌‌‌𝕥𝕒𝕘_𝕗𝕟𝕤.𝕡𝕙𝕡​⁡                                                                                          │
-  ├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-  │ A set of function to manipulate with tags. D͟o͟c͟u͟m͟e͟n͟t͟a͟t͟i͟o͟n b͟e͟l͟o͟w.                                     │
-  └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
- */
-
- /**
-  * File for manipulating with tags.
+/**
+  * File for database class.
   * 
-  * This file contains a class that manipulates with tags.
+  * This file contains a class that connects to the database and makes queries.
   * 
   * PHP version 7.4.27
   * 
-  * LICENSE: This source file is subject to version 3 of the GNU GPL license
-  * that is available through the world-wide-web at the following URI:
-  * http://www.gnu.org/licenses/gpl-3.0.html.
+  * LICENSE: MIT License
+  *
+  * Copyright (c) 2022 Protopixel
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a copy
+  * of this software and associated documentation files (the "Software"), to deal
+  * in the Software without restriction, including without limitation the rights
+  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  * copies of the Software, and to permit persons to whom the Software is
+  * furnished to do so, subject to the following conditions:
+  *
+  * The above copyright notice and this permission notice shall be included in all
+  * copies or substantial portions of the Software.
+  *
+  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  * SOFTWARE.
   * 
-  * @category   Database
-  * @author     Adam Ondrejčák <adam.ondrejcak@gmail.com>
-  * @license    http://www.gnu.org/licenses/gpl-3.0.html  GNU GPL v3
+  * @category   Tracker
+  * @author     Protopixel <protopixel06@gmail.com>
+  * @license    MIT License
   * @version    prerelease-1.0
-  * @since      File available since alpha-2.1.1
+  * @since      File available since v1.0-pre1
   */
 
   /* -------------------------------------------------------------------------- */
@@ -39,7 +48,7 @@
  * @param integer $userId  ID of the user
  * @param string  $name    Comment
  * 
- * @author Adam Ondrejčák <adam.ondrejcak@gmail.com>
+ * @author     Protopixel <protopixel06@gmail.com>
  */
 function createTag($userId, $name) {
     DB::query("INSERT INTO tags (name, user_id) VALUES (:name, :userId)", array(':name'=>$name, ':userId'=>$userId));
@@ -51,7 +60,7 @@ function createTag($userId, $name) {
  * @param integer $tagId  ID of the tag
  * @param string  $name   Comment
  * 
- * @author Adam Ondrejčák <adam.ondrejcak@gmail.com>
+ * @author     Protopixel <protopixel06@gmail.com>
  */
 function editTag($tagId, $name) {
     DB::query("UPDATE tags SET name=:value WHERE id=:tagId", array(':value'=>$name, ':tagId'=>$tagId));
@@ -62,7 +71,7 @@ function editTag($tagId, $name) {
  * 
  * @param integer $tagId  ID of the tag
  * 
- * @author Adam Ondrejčák <adam.ondrejcak@gmail.com>
+ * @author     Protopixel <protopixel06@gmail.com>
  */
 function deleteTag($tagId) {
     DB::query("DELETE FROM tags WHERE id=:tagId", array(':tagId'=>$tagId));
@@ -76,7 +85,7 @@ function deleteTag($tagId) {
  * 
  * @return integer
  * 
- * @author Adam Ondrejčák <adam.ondrejcak@gmail.com>
+ * @author     Protopixel <protopixel06@gmail.com>
  */
 function getTag($userId, $name) {
     $id = DB::count("SELECT * FROM tags WHERE name=:name AND user_id=:userId", array(':name'=>$name, ':userId'=>$userId)) ? DB::query("SELECT * FROM tags WHERE name=:name AND user_id=:userId", array(':name'=>$name, ':userId'=>$userId))[0]['id'] : null;
@@ -90,7 +99,7 @@ function getTag($userId, $name) {
  * 
  * @return array
  * 
- * @author Adam Ondrejčák <adam.ondrejcak@gmail.com>
+ * @author     Protopixel <protopixel06@gmail.com>
  */
 function listTags($userId) {
     if(DB::count("SELECT * FROM tags WHERE user_id=:userId", array(':userId'=>$userId)) >= 1) {
